@@ -22,9 +22,10 @@ type Config struct {
 	Launcher struct {
 		UserAgent string `json:"user_agent"`
 		Oauth     struct {
-			Regex string `json:"regex"`
-			Get   string `json:"get"`
-			Post  string `json:"post"`
+			RegexStored string `json:"regex_stored"`
+			RegexSid    string `json:"regex_sid"`
+			Get         string `json:"get"`
+			Post        string `json:"post"`
 		} `json:"oauth"`
 	} `json:"launcher"`
 	Testing string `json:"testing"`

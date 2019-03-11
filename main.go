@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -14,5 +13,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Print(session.ID)
+	// Start game?
+	if Launcher(session) != nil {
+		log.Fatal(err)
+	}
 }

@@ -4,7 +4,7 @@ import "testing"
 
 // Test config.Load()
 func TestConfig(t *testing.T) {
-	config, err := config.Load("./config/config.json")
+	config, err := config.Load(configPath)
 	got := config.Testing
 	expected := "test"
 	if got != expected {

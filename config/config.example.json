@@ -1,20 +1,28 @@
 {
-  "auth": {
-      "user_id": "",
-      "password": "",
-      "token": false,
-      "session": {
-          "date": "",
-          "id": ""
-      }
-  },
-  "launcher":{
-      "user_agent": "",
-      "oauth":{
-          "regex": "<input type=\"hidden\" name=\"_STORED_\" value=\"(?P<_STORED_>.*)\"",
-          "get" : "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top",
-          "post" : "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/login.send"
-      } 
-  },
-  "testing": "test"
+    "auth": {
+        "user_id": "",
+        "password": "",
+        "token": false,
+        "session": {
+            "date": "",
+            "id": ""
+        }
+    },
+    "launcher": {
+        "user_agent": "",
+        "oauth": {
+            "regex_stored": "<input type=\"hidden\" name=\"_STORED_\" value=\"(?P<_STORED_>.*)\"",
+            "regex_sid": "login=auth,ok,sid,(?P<SID>.+?),",
+            "get": "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top",
+            "post": "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/login.send"
+        }
+    },
+    "game":{
+        "dx11":true,
+        "path":{
+            "boot":"C:\\Program Files (x86)\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn\\boot\\",
+            "game":"C:\\Program Files (x86)\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn\\game\\"
+        }
+    },
+    "testing": "test"
 }

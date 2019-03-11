@@ -6,7 +6,10 @@ import (
 	"os"
 )
 
-var config *Config
+var (
+	config     *Config
+	configPath = "./config/config.json"
+)
 
 // Config struct
 type Config struct {
@@ -28,6 +31,13 @@ type Config struct {
 			Post        string `json:"post"`
 		} `json:"oauth"`
 	} `json:"launcher"`
+	Game struct {
+		Dx11 bool `json:"dx11"`
+		Path struct {
+			Boot string `json:"boot"`
+			Game string `json:"game"`
+		} `json:"path"`
+	} `json:"game"`
 	Testing string `json:"testing"`
 }
 

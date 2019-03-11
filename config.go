@@ -19,6 +19,14 @@ type Config struct {
 			ID   string `json:"id"`
 		} `json:"session"`
 	} `json:"auth"`
+	Launcher struct {
+		UserAgent string `json:"user_agent"`
+		Oauth     struct {
+			Regex string `json:"regex"`
+			Get   string `json:"get"`
+			Post  string `json:"post"`
+		} `json:"oauth"`
+	} `json:"launcher"`
 	Testing string `json:"testing"`
 }
 

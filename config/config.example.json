@@ -1,12 +1,20 @@
 {
   "auth": {
-    "user_id": "",
-    "password": "",
-    "token": false,
-    "session": {
-      "date": "",
-      "id": ""
-    }
+      "user_id": "",
+      "password": "",
+      "token": false,
+      "session": {
+          "date": "",
+          "id": ""
+      }
+  },
+  "launcher":{
+      "user_agent": "",
+      "oauth":{
+          "regex": "<input type=\"hidden\" name=\"_STORED_\" value=\"(?P<_STORED_>.*)\"",
+          "get" : "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top",
+          "post" : "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/login.send"
+      } 
   },
   "testing": "test"
 }

@@ -6,12 +6,20 @@ import (
 	"os"
 )
 
-// Init
 var config *Config
 
 // Config struct
 type Config struct {
-	Hello string `json:"hello"`
+	Auth struct {
+		UserID   string `json:"user_id"`
+		Password string `json:"password"`
+		Token    bool   `json:"token"`
+		Session  struct {
+			Date string `json:"date"`
+			ID   string `json:"id"`
+		} `json:"session"`
+	} `json:"auth"`
+	Testing string `json:"testing"`
 }
 
 // Load config from filepath

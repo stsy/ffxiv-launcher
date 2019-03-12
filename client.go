@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -55,7 +54,7 @@ func Stored() (stored string, err error) {
 func Login() (s *Session, err error) {
 	config, err := config.Load(configPath)
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
 
 	// FIXME: Check if session is stored
@@ -119,7 +118,17 @@ func Login() (s *Session, err error) {
 	return
 }
 
-// Launcher
 func Launcher(s *Session) (err error) {
-	return nil
+	config, err := config.Load(configPath)
+	if err != nil {
+		return
+	}
+	// Get the gameversion
+	vPath := config.Game.Path.Game + "ffxivgame.ver"
+	b, err := ioutil.ReadFile(vPath)
+	if err != nil {
+		return
+	}
+	fmt.Println(string(b))
+	return
 }

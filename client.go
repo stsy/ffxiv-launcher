@@ -168,7 +168,25 @@ func Launcher(s *Session) (err error) {
 	}
 	defer resp.Body.Close()
 
-	// FIXME
-	fmt.Println(resp.Header.Get("X-Patch-Unique-Id"))
+	// Launch args
+	// FIXME: add some of this to config
+	args := []string{
+		"DEV.TestSID=" + resp.Header.Get("X-Patch-Unique-Id"),
+		"DEV.UseSqPack=1",
+		"DEV.DataPathType=1",
+		"DEV.MaxEntitledExpansionID=" + config.Game.Expansion,
+		"SYS.Region=3",
+		"language=1",
+	}
+
+	// Check if DX11 is enabled
+	bin := "ffxiv.exe"
+	if config.Game.Dx11 {
+		bin = "ffxiv_dx11.exe"
+	}
+
+	// Start game
+	Start(config.Game.Path.Game+bin, args)
+
 	return
 }

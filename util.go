@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"regexp"
 )
 
@@ -50,4 +51,10 @@ func Hash(path string) (sizeHash string, err error) {
 	b := hash.Sum(nil)
 	sizeHash = fmt.Sprintf("%d/%s", fs.Size(), hex.EncodeToString(b))
 	return
+}
+
+// Start starts a program with args and detach
+func Start(path string, args []string) {
+	cmd := exec.Command(path, args...)
+	cmd.Start()
 }

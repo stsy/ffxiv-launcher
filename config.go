@@ -32,8 +32,9 @@ type Config struct {
 		} `json:"oauth"`
 	} `json:"launcher"`
 	Game struct {
-		Dx11 bool `json:"dx11"`
-		Path struct {
+		Expansion string `json:"expansion"`
+		Dx11      bool   `json:"dx11"`
+		Path      struct {
 			Boot string `json:"boot"`
 			Game string `json:"game"`
 		} `json:"path"`

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -123,12 +124,19 @@ func Launcher(s *Session) (err error) {
 	if err != nil {
 		return
 	}
+
+	boot, err := Hash(config.Game.Path.Boot + "ffxivboot.exe")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Get the gameversion
 	vPath := config.Game.Path.Game + "ffxivgame.ver"
 	b, err := ioutil.ReadFile(vPath)
 	if err != nil {
 		return
 	}
-	fmt.Println(string(b))
+
+	fmt.Println(string(b) + " " + boot)
 	return
 }

@@ -37,8 +37,9 @@ type Config struct {
 			Boot string `json:"boot"`
 			Game string `json:"game"`
 		} `json:"path"`
+		Files      []string `json:"files"`
+		GameverURL string   `json:"gamever_url"`
 	} `json:"game"`
-	Testing string `json:"testing"`
 }
 
 // Load config from filepath

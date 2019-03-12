@@ -125,10 +125,20 @@ func Launcher(s *Session) (err error) {
 		return
 	}
 
-	boot, err := Hash(config.Game.Path.Boot + "ffxivboot.exe")
-	if err != nil {
-		log.Fatal(err)
+	// Make filehash payload
+	var payload string
+	for i, file := range config.Game.Files {
+		hash, err := Hash(config.Game.Path.Boot + file)
+		if err != nil {
+			log.Fatal(err)
+		}
+		payload += fmt.Sprintf("%s/%s", file, hash)
+		if i < len(config.Game.Files)-1 {
+			payload += ","
+		}
 	}
+
+	fmt.Println(payload)
 
 	// Get the gameversion
 	vPath := config.Game.Path.Game + "ffxivgame.ver"
@@ -137,6 +147,6 @@ func Launcher(s *Session) (err error) {
 		return
 	}
 
-	fmt.Println(string(b) + " " + boot)
+	fmt.Println(string(b))
 	return
 }

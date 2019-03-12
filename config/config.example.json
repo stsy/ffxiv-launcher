@@ -9,7 +9,7 @@
         }
     },
     "launcher": {
-        "user_agent": "",
+        "user_agent": "SQEXAuthor/2.0.0(Windows 6.2; ja-jp;",
         "oauth": {
             "regex_stored": "<input type=\"hidden\" name=\"_STORED_\" value=\"(?P<_STORED_>.*)\"",
             "regex_sid": "login=auth,ok,sid,(?P<SID>.+?),",
@@ -22,7 +22,8 @@
         "path":{
             "boot":"C:\\Program Files (x86)\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn\\boot\\",
             "game":"C:\\Program Files (x86)\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn\\game\\"
-        }
-    },
-    "testing": "test"
+        },
+        "files":["ffxivboot.exe", "ffxivboot64.exe", "ffxivlauncher.exe", "ffxivlauncher64.exe", "ffxivupdater.exe", "ffxivupdater64.exe"],
+        "gamever_url":"https://patch-gamever.ffxiv.com/http/win32/ffxivneo_release_game/%s/%s"
+    }
 }

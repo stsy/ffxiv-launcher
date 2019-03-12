@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -119,6 +120,7 @@ func Login() (s *Session, err error) {
 	return
 }
 
+// Launcher ..
 func Launcher(s *Session) (err error) {
 	config, err := config.Load(configPath)
 	if err != nil {
@@ -138,15 +140,35 @@ func Launcher(s *Session) (err error) {
 		}
 	}
 
-	fmt.Println(payload)
-
-	// Get the gameversion
-	vPath := config.Game.Path.Game + "ffxivgame.ver"
-	b, err := ioutil.ReadFile(vPath)
+	// Read out current game version form ffxivgame.ver file
+	version, err := ioutil.ReadFile(config.Game.Path.Game + "ffxivgame.ver")
 	if err != nil {
 		return
 	}
 
-	fmt.Println(string(b))
+	// Disable SSL check
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+
+	// Make gamever url from version and sid
+	url := fmt.Sprintf(config.Game.GameverURL, string(version), s.ID)
+
+	// Send payload
+	req, err := http.NewRequest("POST", url, strings.NewReader(payload))
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("X-Hash-Check", "enabled")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	// FIXME
+	fmt.Println(resp.Header.Get("X-Patch-Unique-Id"))
 	return
 }

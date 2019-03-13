@@ -1,20 +1,26 @@
 package main
 
 import (
+	"fmt"
 	"log"
 )
 
 func main() {
 
-	// FIXME: Setup
-	// FIXME: Check for maintinance / worldstatus
-	// FIXME: Retry if wrong password
+	// TODO: Setup
+	// TODO: Check for maintinance / worldstatus
+	// https://frontier.ffxiv.com/worldStatus/current_status.json
+	// https://frontier.ffxiv.com/worldStatus/gate_status.json
+
+	fmt.Println("FFXIV Launcher")
+	fmt.Println("")
 
 	// Login
 	session, err := Login()
 	if err != nil {
 		log.Fatal(err)
 	}
+	// TODO: Retry if wrong password
 
 	// Start game
 	if Launcher(session) != nil {

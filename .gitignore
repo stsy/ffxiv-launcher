@@ -17,3 +17,7 @@ config.json
 # Bin
 ffxiv-launcher
 *.exe
+
+# Other
+RESEARCH.md
+img

@@ -12,7 +12,7 @@ func main() {
 	// https://frontier.ffxiv.com/worldStatus/current_status.json
 	// https://frontier.ffxiv.com/worldStatus/gate_status.json
 
-	fmt.Println("FFXIV Launcher")
+	fmt.Println("FFXIV Launcher v0.1")
 	fmt.Println("https://github.com/stsy/ffxiv-launcher")
 	fmt.Println("")
 

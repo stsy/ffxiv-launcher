@@ -62,7 +62,9 @@ func Login() (s *Session, err error) {
 	// FIXME: Check if session is stored
 
 	var token string
-	if config.Auth.UserID == "" {
+	if config.Auth.UserID != "" {
+		fmt.Println("Username: " + config.Auth.UserID)
+	} else {
 		fmt.Print("Username: ")
 		fmt.Scanln(&config.Auth.UserID)
 	}

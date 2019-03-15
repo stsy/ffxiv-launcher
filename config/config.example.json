@@ -9,7 +9,7 @@
         }
     },
     "launcher": {
-        "user_agent": "SQEXAuthor/2.0.0(Windows 6.2; ja-jp; 1064d87a30",
+        "user_agent": "SQEXAuthor/2.0.0(Windows 6.2; ja-jp; 1064d87a30)",
         "oauth": {
             "regex_stored": "<input type=\"hidden\" name=\"_STORED_\" value=\"(?P<_STORED_>.*)\"",
             "regex_sid": "login=auth,ok,sid,(?P<SID>.+?),",

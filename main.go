@@ -13,6 +13,7 @@ func main() {
 	// https://frontier.ffxiv.com/worldStatus/gate_status.json
 
 	fmt.Println("FFXIV Launcher")
+	fmt.Println("https://github.com/stsy/ffxiv-launcher")
 	fmt.Println("")
 
 	// Login

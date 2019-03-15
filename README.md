@@ -19,9 +19,9 @@ This is a autolauncher if password is stored, but it's not safe to store passwor
 https://github.com/stsy/ffxiv-launcher/releases
 
 # Todo
-[ ] Check if launcher / game is up to date
-[ ] Maintenance check
-[ ] Setup / auto-gen config
+- [ ] Check if launcher / game is up to date
+- [ ] Maintenance check
+- [ ] Setup / auto-gen config
 
 ---
 **This launcher is not affiliated with SQUARE ENIX CO., LTD. in any way**

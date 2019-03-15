@@ -9,11 +9,10 @@ This is a autolauncher if password is stored, but it's not safe to store passwor
 # Installation
 
 #### Build from source
-```go install github.com/stsy/ffxiv-launcher```
-
 1) Download and install Go https://golang.org/dl/
-2) Create a folder named config in the same folder as the binary
-3) Store the config.json file in it
+2) ```go install github.com/stsy/ffxiv-launcher```
+3) Create a folder named config in the same folder as the binary
+4) Store the config.json file in it
 
 #### Download
 https://github.com/stsy/ffxiv-launcher/releases

@@ -88,7 +88,7 @@ https://github.com/stsy/ffxiv-launcher/releases
 - [ ] Check if launcher / game is up to date
 - [ ] Maintenance check
 - [ ] Setup / auto-gen config
-
+- [ ] TestSID for auto-login
 
 ---
 **This launcher is not affiliated with SQUARE ENIX CO., LTD. in any way**

@@ -5,6 +5,8 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"os/exec"
 	"regexp"
@@ -57,4 +59,22 @@ func Hash(path string) (sizeHash string, err error) {
 func Start(path string, args []string) {
 	cmd := exec.Command(path, args...)
 	cmd.Start()
+}
+
+// DownloadString returns the sourcecode form URL.
+// A successful call returns err == nil.
+func DownloadString(url string) (html string, err error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+
+	bytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+
+	html = string(bytes)
+	return
 }

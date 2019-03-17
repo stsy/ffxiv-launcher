@@ -8,13 +8,15 @@ import (
 func main() {
 
 	// TODO: Setup
-	// TODO: Check for maintinance / worldstatus
-	// https://frontier.ffxiv.com/worldStatus/current_status.json
-	// https://frontier.ffxiv.com/worldStatus/gate_status.json
 
 	fmt.Println("FFXIV Launcher v0.1")
 	fmt.Println("https://github.com/stsy/ffxiv-launcher")
 	fmt.Println("")
+
+	// Check world status
+	if err := worldStatus(); err != nil {
+		log.Panic(err)
+	}
 
 	// Login
 	session, err := Login()
@@ -24,7 +26,7 @@ func main() {
 	// TODO: Retry if wrong password
 
 	// Start game
-	if Launcher(session) != nil {
+	if err = Launcher(session); err != nil {
 		log.Fatal(err)
 	}
 }

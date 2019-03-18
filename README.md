@@ -12,7 +12,7 @@ This is a auto-launcher if password is stored, but it's not safe to store passwo
 1) Download and install Go https://golang.org/dl/
 2) ```go install github.com/stsy/ffxiv-launcher```
 3) Create a folder named config in the same folder as the binary
-4) Store the config.json file in it
+4) Store [config.json](https://raw.githubusercontent.com/stsy/ffxiv-launcher/master/config/config.example.json) file in it
 
 #### Download
 https://github.com/stsy/ffxiv-launcher/releases

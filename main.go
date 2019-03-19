@@ -9,13 +9,13 @@ func main() {
 
 	// TODO: Setup
 
-	fmt.Println("FFXIV Launcher v0.1")
+	fmt.Println("FFXIV Launcher v0.2")
 	fmt.Println("https://github.com/stsy/ffxiv-launcher")
 	fmt.Println("")
 
 	// Check world status
 	if err := worldStatus(); err != nil {
-		fmt.Println(" ERROR")
+		fmt.Println("ERROR")
 		fmt.Println("")
 	}
 

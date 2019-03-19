@@ -7,8 +7,8 @@ import (
 
 func worldStatus() (err error) {
 
-	gateURL := "https://frontier.ffxiv.com/worldStatus/gate_status.json"
-	statusURL := "https://frontier.ffxiv.com/worldStatus/current_status.json"
+	const gateURL = "https://frontier.ffxiv.com/worldStatus/gate_status.json"
+	const statusURL = "https://frontier.ffxiv.com/worldStatus/current_status.json"
 
 	// Gate
 	fmt.Print("Checking gate status ..")

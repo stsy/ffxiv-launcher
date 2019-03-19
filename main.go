@@ -15,18 +15,24 @@ func main() {
 
 	// Check world status
 	if err := worldStatus(); err != nil {
-		log.Panic(err)
+		fmt.Println(" ERROR")
+		fmt.Println("")
 	}
 
-	// Login
-	session, err := Login()
-	if err != nil {
-		log.Fatal(err)
-	}
-	// TODO: Retry if wrong password
+	for {
+		// Login or retry
+		session, err := Login()
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 
-	// Start game
-	if err = Launcher(session); err != nil {
-		log.Fatal(err)
+		// Launch game
+		if err := Launcher(session); err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Println("Starting game ..")
+		break
 	}
 }

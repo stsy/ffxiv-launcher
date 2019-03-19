@@ -5,13 +5,15 @@ import (
 	"fmt"
 )
 
+// Check FFXIV server status
 func worldStatus() (err error) {
 
 	const gateURL = "https://frontier.ffxiv.com/worldStatus/gate_status.json"
 	const statusURL = "https://frontier.ffxiv.com/worldStatus/current_status.json"
 
-	// Gate
-	fmt.Print("Checking gate status ..")
+	fmt.Println("Checking server status:")
+	// Gate status
+	fmt.Print(" Gate: ")
 	jsonGate, err := DownloadString(gateURL)
 	if err != nil {
 		return
@@ -24,13 +26,13 @@ func worldStatus() (err error) {
 	}
 
 	if gateMap["status"] == 0 {
-		fmt.Println("Gate: Down")
+		fmt.Println("Maintenance")
 	} else {
-		fmt.Println(" OK")
+		fmt.Println("OK")
 	}
 
-	// World status
-	fmt.Print("Checking world status ..")
+	// Server status
+	fmt.Print(" Servers: ")
 	jsonStatus, err := DownloadString(statusURL)
 	if err != nil {
 		return
@@ -43,17 +45,20 @@ func worldStatus() (err error) {
 	}
 
 	var maint bool
-	for key, value := range statusMap {
-		if value == 0 {
-			fmt.Println(key, ": Down")
+	for server, status := range statusMap {
+		if status == 0 {
+			if !maint {
+				fmt.Println("Maintenance")
+			}
+			// Print servers that are down
+			fmt.Println(" -", server)
 			maint = true
 		}
 	}
 	if !maint {
-		fmt.Println(" OK")
+		fmt.Println("OK")
 	}
 
 	fmt.Println("")
-
 	return
 }

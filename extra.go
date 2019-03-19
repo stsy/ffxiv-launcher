@@ -8,8 +8,11 @@ import (
 // Check FFXIV server status
 func worldStatus() (err error) {
 
-	const gateURL = "https://frontier.ffxiv.com/worldStatus/gate_status.json"
-	const statusURL = "https://frontier.ffxiv.com/worldStatus/current_status.json"
+	// Status URLs
+	const (
+		gateURL   = "https://frontier.ffxiv.com/worldStatus/gate_status.json"
+		statusURL = "https://frontier.ffxiv.com/worldStatus/current_status.json"
+	)
 
 	fmt.Println("Checking server status:")
 	// Gate status

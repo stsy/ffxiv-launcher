@@ -36,3 +36,6 @@ func main() {
 		break
 	}
 }
+
+// Split config
+//

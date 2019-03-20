@@ -7,12 +7,14 @@ import (
 )
 
 var (
-	config     *Config
-	configPath = "./config/config.json"
+	client     *Client
+	user       *User
+	clientPath = "./config/client.json"
+	userPath   = "./config/user.json"
 )
 
-// Config struct
-type Config struct {
+// User settings
+type User struct {
 	Auth struct {
 		UserID   string `json:"user_id"`
 		Password string `json:"password"`
@@ -21,7 +23,11 @@ type Config struct {
 			Date string `json:"date"`
 			ID   string `json:"id"`
 		} `json:"session"`
-	} `json:"auth"`
+	} `json:"login"`
+}
+
+// Client settings
+type Client struct {
 	Launcher struct {
 		UserAgent string `json:"user_agent"`
 		Oauth     struct {
@@ -43,12 +49,29 @@ type Config struct {
 	} `json:"game"`
 }
 
-// Load config from filepath
+// Load client config from filepath
 // eg. "./config/config.json"
-func (*Config) Load(path string) (c *Config, err error) {
+func (*Client) Load(path string) (c *Client, err error) {
 	// Check if config file exists, if not create it
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		// FIXME: create config.json if it doesn't exitst
+		// FIXME: create client.json if it doesn't exitst
+	}
+
+	j, err := ioutil.ReadFile(path)
+	if err != nil {
+		return
+	}
+
+	json.Unmarshal(j, &c)
+	return
+}
+
+// Load user config from filepath
+// eg. "./config/config.json"
+func (*User) Load(path string) (c *User, err error) {
+	// Check if config file exists, if not create it
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		// FIXME: create user.json if it doesn't exitst
 	}
 
 	j, err := ioutil.ReadFile(path)

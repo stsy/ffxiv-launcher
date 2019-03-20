@@ -12,7 +12,7 @@
 *.out
 
 # Config files
-config.json
+user.json
 
 # Bin
 ffxiv-launcher

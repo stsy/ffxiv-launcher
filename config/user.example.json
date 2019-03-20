@@ -1,0 +1,11 @@
+{
+    "login": {
+        "user_id": "",
+        "password": "",
+        "token": true,
+        "session": {
+            "date": "",
+            "id": ""
+        }
+    }
+}

@@ -16,17 +16,17 @@ type Session struct {
 
 // Stored returns _STORED_ ID
 func Stored() (stored string, err error) {
-	config, err := config.Load(configPath)
+	client, err := client.Load(clientPath)
 	if err != nil {
 		return
 	}
 
 	// GET request to oauth /top
-	req, err := http.NewRequest("GET", config.Launcher.Oauth.Get, nil)
+	req, err := http.NewRequest("GET", client.Launcher.Oauth.Get, nil)
 	if err != nil {
 		return
 	}
-	req.Header.Set("User-Agent", config.Launcher.UserAgent)
+	req.Header.Set("User-Agent", client.Launcher.UserAgent)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -41,7 +41,7 @@ func Stored() (stored string, err error) {
 	}
 
 	// Find the ID in source
-	m, err := ReSearch(config.Launcher.Oauth.RegexStored,
+	m, err := ReSearch(client.Launcher.Oauth.RegexStored,
 		string(source))
 	if err != nil {
 		return
@@ -54,7 +54,12 @@ func Stored() (stored string, err error) {
 // Login checks if logon info is stored in config
 // If not: Promt
 func Login() (s *Session, err error) {
-	config, err := config.Load(configPath)
+	user, err := user.Load(userPath)
+	if err != nil {
+		return
+	}
+
+	client, err := client.Load(clientPath)
 	if err != nil {
 		return
 	}
@@ -62,19 +67,19 @@ func Login() (s *Session, err error) {
 	// FIXME: Check if session is stored
 
 	var token string
-	if config.Auth.UserID != "" {
-		fmt.Println("Username: " + config.Auth.UserID)
+	if user.Auth.UserID != "" {
+		fmt.Println("Username: " + user.Auth.UserID)
 	} else {
 		fmt.Print("Username: ")
-		fmt.Scanln(&config.Auth.UserID)
+		fmt.Scanln(&user.Auth.UserID)
 	}
 
-	if config.Auth.Password == "" {
+	if user.Auth.Password == "" {
 		fmt.Print("Password: ")
-		fmt.Scanln(&config.Auth.Password)
+		fmt.Scanln(&user.Auth.Password)
 	}
 
-	if config.Auth.Token {
+	if user.Auth.Token {
 		fmt.Print("Token: ")
 		fmt.Scanln(&token)
 	}
@@ -85,16 +90,16 @@ func Login() (s *Session, err error) {
 	}
 
 	payload := fmt.Sprintf(`_STORED_=%s&sqexid=%s&password=%s&otppw=%s`,
-		stored, config.Auth.UserID, config.Auth.Password, token)
+		stored, user.Auth.UserID, user.Auth.Password, token)
 
 	// POST stored, user, pass, token to /login.send
 	body := strings.NewReader(payload)
-	req, err := http.NewRequest("POST", config.Launcher.Oauth.Post, body)
+	req, err := http.NewRequest("POST", client.Launcher.Oauth.Post, body)
 	if err != nil {
 		return
 	}
-	req.Header.Set("User-Agent", config.Launcher.UserAgent)
-	req.Header.Set("Referer", config.Launcher.Oauth.Post)
+	req.Header.Set("User-Agent", client.Launcher.UserAgent)
+	req.Header.Set("Referer", client.Launcher.Oauth.Post)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := http.DefaultClient.Do(req)
@@ -109,7 +114,7 @@ func Login() (s *Session, err error) {
 		return
 	}
 
-	m, err := ReSearch(config.Launcher.Oauth.RegexSid, string(source))
+	m, err := ReSearch(client.Launcher.Oauth.RegexSid, string(source))
 	if err != nil {
 		err = fmt.Errorf("Wrong username or password")
 		return
@@ -124,26 +129,26 @@ func Login() (s *Session, err error) {
 
 // Launcher ..
 func Launcher(s *Session) (err error) {
-	config, err := config.Load(configPath)
+	client, err := client.Load(clientPath)
 	if err != nil {
 		return
 	}
 
 	// Make filehash payload
 	var payload string
-	for i, file := range config.Game.Files {
-		hash, err := Hash(config.Game.Path.Boot + file)
+	for i, file := range client.Game.Files {
+		hash, err := Hash(client.Game.Path.Boot + file)
 		if err != nil {
 			log.Fatal(err)
 		}
 		payload += fmt.Sprintf("%s/%s", file, hash)
-		if i < len(config.Game.Files)-1 {
+		if i < len(client.Game.Files)-1 {
 			payload += ","
 		}
 	}
 
 	// Read out current game version form ffxivgame.ver file
-	version, err := ioutil.ReadFile(config.Game.Path.Game + "ffxivgame.ver")
+	version, err := ioutil.ReadFile(client.Game.Path.Game + "ffxivgame.ver")
 	if err != nil {
 		return
 	}
@@ -152,10 +157,10 @@ func Launcher(s *Session) (err error) {
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
-	client := &http.Client{Transport: tr}
+	hc := &http.Client{Transport: tr}
 
 	// Make gamever url from version and sid
-	url := fmt.Sprintf(config.Game.GameverURL, string(version), s.ID)
+	url := fmt.Sprintf(client.Game.GameverURL, string(version), s.ID)
 
 	// Send payload
 	req, err := http.NewRequest("POST", url, strings.NewReader(payload))
@@ -164,7 +169,7 @@ func Launcher(s *Session) (err error) {
 	}
 	req.Header.Set("X-Hash-Check", "enabled")
 
-	resp, err := client.Do(req)
+	resp, err := hc.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -176,19 +181,19 @@ func Launcher(s *Session) (err error) {
 		"DEV.TestSID=" + resp.Header.Get("X-Patch-Unique-Id"),
 		"DEV.UseSqPack=1",
 		"DEV.DataPathType=1",
-		"DEV.MaxEntitledExpansionID=" + config.Game.Expansion,
+		"DEV.MaxEntitledExpansionID=" + client.Game.Expansion,
 		"SYS.Region=3",
 		"language=1",
 	}
 
 	// Check if DX11 is enabled
 	bin := "ffxiv.exe"
-	if config.Game.Dx11 {
+	if client.Game.Dx11 {
 		bin = "ffxiv_dx11.exe"
 	}
 
 	// Start game
-	Start(config.Game.Path.Game+bin, args)
+	Start(client.Game.Path.Game+bin, args)
 
 	return
 }

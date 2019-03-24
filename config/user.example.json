@@ -4,8 +4,9 @@
         "password": "",
         "token": true,
         "session": {
+            "auto_login": true,
             "date": "",
-            "id": ""
+            "encrypted_id": ""
         }
     }
 }

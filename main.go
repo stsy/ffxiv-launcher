@@ -3,15 +3,15 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 )
 
 func main() {
-
-	// TODO: Setup
-
-	fmt.Println("FFXIV Launcher v0.2")
+	fmt.Println("FFXIV Launcher v0.3")
 	fmt.Println("https://github.com/stsy/ffxiv-launcher")
 	fmt.Println("")
+
+	// Print what expansion
 
 	// Check world status
 	if err := worldStatus(); err != nil {
@@ -19,6 +19,17 @@ func main() {
 		fmt.Println("")
 	}
 
+	// Attempt to autologin if enabled
+	if autoLogin() {
+		// Sleep for 8 sec before closing program
+		duration := time.Duration(8) * time.Second
+		time.Sleep(duration)
+		return
+	}
+
+	fmt.Println("")
+
+	// Login loop
 	for {
 		// Login or retry
 		session, err := Login()
@@ -36,6 +47,3 @@ func main() {
 		break
 	}
 }
-
-// Split config
-//

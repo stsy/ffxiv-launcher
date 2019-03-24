@@ -12,6 +12,7 @@ var (
 	user       *User
 	clientPath = "./config/client.json"
 	userPath   = "./config/user.json"
+	key        = "111111111111111111111111"
 )
 
 // User settings
@@ -21,8 +22,9 @@ type User struct {
 		Password string `json:"password"`
 		Token    bool   `json:"token"`
 		Session  struct {
-			Date string `json:"date"`
-			ID   string `json:"id"`
+			AutoLogin bool   `json:"auto_login"`
+			Date      string `json:"date"`
+			ID        string `json:"encrypted_id"`
 		} `json:"session"`
 	} `json:"login"`
 }

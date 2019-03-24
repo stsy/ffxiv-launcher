@@ -65,23 +65,23 @@ func Login() (s *Session, err error) {
 		return
 	}
 
-	// FIXME: Check if session is stored
+	fmt.Println("Login")
 
 	var token string
 	if user.Auth.UserID != "" {
-		fmt.Println("Username: " + user.Auth.UserID)
+		fmt.Println(" Username: " + user.Auth.UserID)
 	} else {
-		fmt.Print("Username: ")
+		fmt.Print(" Username: ")
 		fmt.Scanln(&user.Auth.UserID)
 	}
 
 	if user.Auth.Password == "" {
-		fmt.Print("Password: ")
+		fmt.Print(" Password: ")
 		fmt.Scanln(&user.Auth.Password)
 	}
 
 	if user.Auth.Token {
-		fmt.Print("Token: ")
+		fmt.Print(" Token: ")
 		fmt.Scanln(&token)
 	}
 
@@ -117,7 +117,7 @@ func Login() (s *Session, err error) {
 
 	m, err := ReSearch(client.Launcher.Oauth.RegexSid, string(source))
 	if err != nil {
-		err = fmt.Errorf("Wrong username or password")
+		err = fmt.Errorf(" Wrong username or password")
 		return
 	}
 
@@ -181,14 +181,14 @@ func Launcher(s *Session) (err error) {
 	}
 	defer resp.Body.Close()
 
-	user.Auth.Session.Date = time.Now().Format(time.RFC850)
 	user.Auth.Session.ID = resp.Header.Get("X-Patch-Unique-Id")
-	// FIXME: if save testsid
-	user.Save()
+	// Store the session ID in user.json if autologin is true
+	if user.Auth.Session.AutoLogin {
+		user.Auth.Session.Date = time.Now().Format(time.RFC850)
+		user.Save()
+	}
 
-	// Launch args
-	// FIXME: add some of this to config
-	args := []string{
+	var args = []string{
 		"DEV.TestSID=" + user.Auth.Session.ID,
 		"DEV.UseSqPack=1",
 		"DEV.DataPathType=1",

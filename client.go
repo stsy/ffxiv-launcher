@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 // Session ..
@@ -134,6 +135,11 @@ func Launcher(s *Session) (err error) {
 		return
 	}
 
+	user, err := user.Load(userPath)
+	if err != nil {
+		return
+	}
+
 	// Make filehash payload
 	var payload string
 	for i, file := range client.Game.Files {
@@ -175,10 +181,15 @@ func Launcher(s *Session) (err error) {
 	}
 	defer resp.Body.Close()
 
+	user.Auth.Session.Date = time.Now().Format(time.RFC850)
+	user.Auth.Session.ID = resp.Header.Get("X-Patch-Unique-Id")
+	// FIXME: if save testsid
+	user.Save()
+
 	// Launch args
 	// FIXME: add some of this to config
 	args := []string{
-		"DEV.TestSID=" + resp.Header.Get("X-Patch-Unique-Id"),
+		"DEV.TestSID=" + user.Auth.Session.ID,
 		"DEV.UseSqPack=1",
 		"DEV.DataPathType=1",
 		"DEV.MaxEntitledExpansionID=" + client.Game.Expansion,

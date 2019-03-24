@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"os"
 )
 
@@ -81,4 +82,16 @@ func (*User) Load(path string) (c *User, err error) {
 
 	json.Unmarshal(j, &c)
 	return
+}
+
+// Save config
+func (u *User) Save() {
+
+	// Clear password before saving changes
+
+	j, _ := json.MarshalIndent(u, "", "   ")
+	err := ioutil.WriteFile(userPath, j, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

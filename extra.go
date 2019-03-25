@@ -138,3 +138,23 @@ func autoLogin() (start bool) {
 	}
 	return
 }
+
+// Returns expansion name form expansion ID set in config
+func expansion() (name string) {
+	client, err := client.Load(clientPath)
+	if err != nil {
+		return
+	}
+
+	switch client.Game.Expansion {
+	case "0":
+		return "A Realm Reborn"
+	case "1":
+		return "Heavensward"
+	case "2":
+		return "Stormblood"
+	default:
+		return
+	}
+
+}

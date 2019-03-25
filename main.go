@@ -8,10 +8,10 @@ import (
 
 func main() {
 	fmt.Println("FFXIV Launcher v0.3")
-	fmt.Println("https://github.com/stsy/ffxiv-launcher")
-	fmt.Println("")
+	fmt.Println(" Expansion: ", expansion())
+	fmt.Println(" https://github.com/stsy/ffxiv-launcher")
 
-	// Print what expansion
+	fmt.Println("")
 
 	// Check world status
 	if err := worldStatus(); err != nil {
